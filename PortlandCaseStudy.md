@@ -23,12 +23,26 @@ To correct the abbreviated street types, I used the regular expression from an e
 
 ```python
 def update_name(name, mapping):
+	name = name.split(" ")
+	old_street_type = name.pop()
+	if old_street_type in mapping:
+    	name.append(mapping[old_street_type])
+    else:
+    	name.append(old_street_type)
+	name = " ".join(name)
+	return name
+```
+
+### Abbreviated street directions
+
+In order to correct the abbreviated street directions, I decided to update the function I had written for correcting street types so that it could take care of both jobs. I also updated the mapping dictionary to include possible directions. Here is the updated function from PortlandCaseStudy.py:
+
+```python
+def update_name(name, mapping):
 	name = name.split()
-	for word in name:
-		if word in mapping.keys():
-			name.append(mapping[word])
-		else:
-			name.append(word)
+	for word in range(len(name)):
+		if name[word] in mapping.keys():
+			name[word] = mapping[name[word]]
 	name = " ".join(name)
 	return name
 ```

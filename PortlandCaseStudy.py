@@ -70,7 +70,7 @@ def audit(osmfile):
 
 #########################################
 
-# Look for problematic zip codes
+# Look for problematic zip codes. Portland zip codes begin with 972
 
 zip_codes = []
 
@@ -115,23 +115,64 @@ mapping = { "Ave.": "Avenue",
 			"St": "Street",
             "St.": "Street",
             "st.": "Street",
-            "street": "Street"
+            "street": "Street",
+    		"S.": "South",
+			"S": "South",
+			"s.": "South",
+			"s": "South",
+			"south": "South",
+			"SE": "Southeast",
+			"southeast": "Southeast",
+			"SW": "Southwest",
+			"southwest": "Southwest",
+			"N.": "North",
+			"N": "North",
+			"n.": "North",
+			"n": "North",
+			"north": "North",
+			"NE": "Northeast",
+			"northeast": "Northeast",
+			"NW": "Northwest",
+			"northwest": "Northwest",
+			"E.": "East",
+			"E": "East",
+			"e.": "East",
+			"e": "East",
+			"east": "East",
+			"W.": "West",
+			"W": "West",
+			"w.": "West",
+			"w": "West",
+			"west": "West"
             }
 
 def update_name(name, mapping):
-	name = name.split()
-	for word in name:
-		if word in mapping.keys():
-			name.append(mapping[word])
-		else:
-			name.append(word)
+	name = name.split(" ")
+	for word in range(len(name)):
+		if name[word] in mapping.keys():
+			name[word] = mapping[name[word]]
 	name = " ".join(name)
 	return name
 
-#st_types = audit(osm_file)
+st_types = audit(osm_file)
 #for st_types, ways in st_types.iteritems():
 #	for name in ways:
 #		better_name = update_name(name, mapping)
+#		print name, "->", better_name
+
+
+
+#########################################
+
+# "Fix" abbreviated street directions
+
+mapping_direction = {
+					}
+
+for st_types, ways in st_types.iteritems():
+	for name in ways:
+		better_name = update_name(name, mapping)
+		print name, "->", better_name
 
 #########################################
 
