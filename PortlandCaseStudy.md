@@ -10,4 +10,6 @@ Portland, Oregon is one of my favorite cities. I visit there at least once a yea
 
 ## Problems Encountered in the Map
 
-* Abbreviated street types('Ave.',  'St.', 'Blvd.', etc.)
+* Abbreviated street types ('Ave.',  'St.', 'Blvd.', etc.)
+* Abbreviated street directions (S, NE, W)
+* Unexpected keys in way tag attributes (brand:wikidata, contact:twitter, tiger:source, tiger:upload_uid, tiger:name_type, fixme, FIXME:access)

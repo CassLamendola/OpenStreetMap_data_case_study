@@ -80,6 +80,8 @@ def is_zip_code(elem):
 def audit_zip_codes(zip_code):
 	if zip_code[:3] != "972":
 		zip_codes.append(zip_code)
+	if len(zip_code) > 5:
+		zip_codes.append(zip_code)
 
 def audit_zip(osmfile):
 	for event, elem in ET.iterparse(osmfile, events=("start",)):
@@ -130,5 +132,22 @@ def update_name(name, mapping):
 #for st_types, ways in st_types.iteritems():
 #	for name in ways:
 #		better_name = update_name(name, mapping)
-		
+
+#########################################
+
+# Look for unexpected keys in way tags
+
+way_keys = set()
+
+def audit_tags(osmfile):
+	for event, elem in ET.iterparse(osmfile, events=("start",)):
+		if elem.tag == "way":
+			for tag in elem.iter():
+				if 'k' in tag.attrib:
+					way_keys.add(tag.attrib['k'])
+	return way_keys
+
+#way_tag_keys = audit_tags(osm_file)
+#print way_tag_keys
+
 osm_file.close()
