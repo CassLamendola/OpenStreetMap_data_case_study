@@ -7,3 +7,7 @@
 - [mapzen.com](https://mapzen.com/data/metro-extracts/metro/portland_oregon/)
 
 Portland, Oregon is one of my favorite cities. I visit there at least once a year because I love the culture of the city. That's why I chose to use the Portland OpenStreetMap data for this case study.
+
+## Problems Encountered in the Map
+
+* Abbreviated street types('Ave.',  'St.', 'Blvd.', etc.)
