@@ -410,4 +410,4 @@ def shape_element(element, node_attr_fields=NODE_FIELDS, way_attr_fields=WAY_FIE
                     tags.append(way_tag)
     return {'way': way_attribs, 'way_nodes': way_nodes, 'way_tags': tags}
 
-process_map(osm_path, validate=True)
+# process_map(osm_path, validate=True)
