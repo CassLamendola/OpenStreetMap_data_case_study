@@ -80,6 +80,41 @@ FROM ways;
 
 SELECT COUNT(*)
 FROM nodes_tags
-WHERE value = 'cafe';
+WHERE value = 'cafe'
+OR value = 'coffee_shop';
 
-# 
+# Find number of bus stops
+
+SELECT COUNT(*)
+FROM nodes_tags
+WHERE value = 'bus_stop';
+
+# Find number of streets with a dedicated bike path
+
+SELECT COUNT(*)
+FROM (
+    SELECT *
+    FROM (ways_tags JOIN ways
+        ON ways_tags.id = ways.id)
+    WHERE ways_tags.key = 'bicycle'
+    AND ways_tags.value = 'yes' 
+    OR ways_tags.value = 'designated');
+
+# Find the top 5 amenities in Portland
+
+SELECT value, COUNT(*) AS num
+FROM nodes_tags
+WHERE key = 'amenity'
+GROUP BY value
+ORDER BY num DESC
+LIMIT 5;
+
+# Find number of non-highway streets
+
+SELECT COUNT(DISTINCT(subq.id))
+FROM (
+    SELECT *
+    FROM ways JOIN ways_tags
+    ON ways.id = ways_tags.id
+    WHERE ways_tags.key != 'highway')
+AS subq;
