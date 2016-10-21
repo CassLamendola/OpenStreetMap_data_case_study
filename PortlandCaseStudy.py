@@ -82,10 +82,8 @@ def is_zip_code(elem):
 	return (elem.attrib['k'] == "addr:postcode")
 
 def audit_zip_codes(zip_code):
-	if zip_code[:3] != "972":
-		zip_codes.append(zip_code)
-	if len(zip_code) > 5:
-		zip_codes.append(zip_code)
+	if zip_code[:3] != "972" or len(zip_code) != 5:
+	   zip_codes.append(zip_code)
 
 def audit_zip(osmfile):
 	for event, elem in ET.iterparse(osmfile, events=("start",)):
@@ -189,6 +187,55 @@ def audit_tags(osmfile):
 
 #way_tag_keys = audit_tags(osm_file)
 #print way_tag_keys
+
+#########################################
+
+# Audit city name
+
+cities = []
+
+def is_city(elem):
+    return (elem.attrib['k'] == "addr:city")
+
+def audit_city(city):
+    if city[0].islower():
+       cities.append(city)
+    if city.isupper():
+        cities.append(city)
+    if city.find(',') != -1:
+        cities.append(city)
+
+def audit_cities(osmfile):
+    for event, elem in ET.iterparse(osmfile, events=("start",)):
+        if elem.tag == "node":
+            for tag in elem.iter("tag"):
+                if is_city(tag):
+                    audit_city(tag.attrib['v'])
+    return zip_codes
+
+#audit_cities(osm_file)
+#cities = set(cities)
+#print cities
+
+#########################################
+
+# Fix city name
+
+def update_city(city):
+    if city[0].islower():
+        city[0].upper()
+    if city.isupper():
+        city.lower()
+        city[0].upper()
+    if city.find(',') != -1:
+        city.split(',')
+        city = city[0]
+    return city
+
+city_names = audit_cities(osm_file)
+for city in city_names:
+    better_city = update_city(city)
+    print city, "->", better_city
 
 osm_file.close()
 
